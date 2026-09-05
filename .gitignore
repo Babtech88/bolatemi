@@ -1,34 +1,7 @@
-# Environment
-.env
-.env.*
-!.env.example
-
-# Node
 node_modules/
-.npm/
-.vite/
+.env
+.env.local
 dist/
-
-# Logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Python
-venv/
-.venv/
-__pycache__/
-*.pyc
-*.pyo
-
-# IDE
-.vscode/
-.idea/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Uploads
+build/
+.vercel/
 uploads/
