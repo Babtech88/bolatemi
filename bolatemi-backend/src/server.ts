@@ -19,3 +19,11 @@ process.on("SIGINT", async () => {
   process.exit(0);
 });
 
+import path from "path";
+import express from "express";
+
+const app = express();
+
+app.get("/favicon.ico", (_req, res) => {
+  res.sendFile(path.join(process.cwd(), "public", "favicon.ico"));
+});
