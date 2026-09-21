@@ -58,10 +58,12 @@ app.use("/api", apiLimiter);
 // bare domain (Render, Railway, uptime monitors), /api/health for anything
 // that only reaches this app under an /api prefix (e.g. a Vercel deployment
 // where the frontend's VITE_API_URL already ends in /api).
-app.get("/health", (_req, res) => res.json({ status: "ok", env: env.nodeEnv }));
 app.get("/api/health", (_req, res) => res.json({ status: "ok", env: env.nodeEnv }));
+
+app.get("/favicon.ico", (_req, res) => {
+  res.status(204).end();
+});
 
 app.use("/api", routes);
 
 app.use(notFoundHandler);
-app.use(errorHandler);
