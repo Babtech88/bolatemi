@@ -1,4 +1,4 @@
-```tsx
+
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { api } from "../../lib/api";
@@ -158,4 +158,3 @@ export default function AdminSettings() {
     </section>
   );
 }
-```
