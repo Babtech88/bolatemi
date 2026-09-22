@@ -7,6 +7,11 @@ export const listProducts = asyncHandler(async (req: Request, res: Response) => 
   res.json({ success: true, data: result.items, meta: { total: result.total, page: result.page, limit: result.limit, totalPages: result.totalPages } });
 });
 
+export const listAdminProducts = asyncHandler(async (req: Request, res: Response) => {
+  const result = await productService.listAdminProducts(req.query as any);
+  res.json({ success: true, data: result.items, meta: { total: result.total, page: result.page, limit: result.limit, totalPages: result.totalPages } });
+});
+
 export const getProduct = asyncHandler(async (req: Request, res: Response) => {
   const result = await productService.getProductBySlug(req.params.slug);
   res.json({ success: true, data: result.product, related: result.related });

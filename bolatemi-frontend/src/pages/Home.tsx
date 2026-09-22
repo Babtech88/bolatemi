@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../lib/api";
-import type { Category } from "../lib/types";
+import type { Category, Product } from "../lib/types";
+import ProductCard from "../components/ProductCard";
 
 const categoryImages: Record<string, string> = {
   "ms-pipes": "/images/products/black_pipe.png",
@@ -98,6 +99,7 @@ function HeroBackgroundSlideshow() {
 
 export default function Home() {
   const [categories, setCategories] = useState<Category[]>(fallbackCategories);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     api
@@ -106,6 +108,11 @@ export default function Home() {
         if (res.data && res.data.length > 0) setCategories(res.data);
       })
       .catch(() => {});
+
+    api
+      .get<{ success: boolean; data: Product[] }>("/products?featured=true&limit=8")
+      .then((res) => setFeaturedProducts(res.data ?? []))
+      .catch(() => setFeaturedProducts([]));
   }, []);
 
   return (
@@ -194,6 +201,26 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {featuredProducts.length > 0 && (
+        <section className="section" style={{ background: "var(--paper-2)" }}>
+          <div className="wrap">
+            <div className="section-head">
+              <span className="kicker">Featured Stock</span>
+              <h2>Available Products</h2>
+              <p>Shop products currently marked as available in our live inventory.</p>
+            </div>
+            <div className="product-grid">
+              {featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+            <div style={{ marginTop: 28, textAlign: "center" }}>
+              <Link to="/shop" className="btn btn-dark">View All Products</Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="section showcase-section">
         <div className="wrap">

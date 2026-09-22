@@ -8,6 +8,10 @@ const router = Router();
 
 // Public storefront routes
 router.get("/", validate(listProductsQuerySchema, "query"), productController.listProducts);
+
+// Admin listing includes unavailable/hidden products so the dashboard is a true inventory view.
+router.get("/admin/list", authenticate, authorize("SUPER_ADMIN", "ADMIN"), validate(listProductsQuerySchema, "query"), productController.listAdminProducts);
+
 router.get("/:slug", productController.getProduct);
 
 // Admin-only management routes

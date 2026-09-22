@@ -5,16 +5,51 @@ import { ApiError } from "../utils/ApiError";
 interface ListParams {
   category?: string;
   search?: string;
+  featured?: boolean;
   page: number;
   limit: number;
   sort: "newest" | "price_asc" | "price_desc";
 }
 
 export async function listProducts(params: ListParams) {
-  const { category, search, page, limit, sort } = params;
+  const { category, search, featured, page, limit, sort } = params;
 
   const where = {
     isAvailable: true,
+    ...(featured ? { isFeatured: true } : {}),
+    ...(category ? { category: { slug: category } } : {}),
+    ...(search
+      ? {
+          OR: [
+            { name: { contains: search, mode: "insensitive" as const } },
+            { sku: { contains: search, mode: "insensitive" as const } },
+            { description: { contains: search, mode: "insensitive" as const } },
+          ],
+        }
+      : {}),
+  };
+
+  const orderBy =
+    sort === "price_asc" ? { price: "asc" as const } : sort === "price_desc" ? { price: "desc" as const } : { createdAt: "desc" as const };
+
+  const [items, total] = await Promise.all([
+    prisma.product.findMany({
+      where,
+      orderBy,
+      skip: (page - 1) * limit,
+      take: limit,
+      include: { images: { orderBy: { sortOrder: "asc" } }, category: true },
+    }),
+    prisma.product.count({ where }),
+  ]);
+
+  return { items, total, page, limit, totalPages: Math.ceil(total / limit) };
+}
+
+
+export async function listAdminProducts(params: Omit<ListParams, "featured">) {
+  const { category, search, page, limit, sort } = params;
+  const where = {
     ...(category ? { category: { slug: category } } : {}),
     ...(search
       ? {

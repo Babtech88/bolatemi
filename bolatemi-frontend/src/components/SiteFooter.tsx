@@ -29,6 +29,7 @@ export default function SiteFooter() {
             <Link to="/request-a-quote">Request a Quote</Link>
             <Link to="/testimonials">Testimonials</Link>
             <Link to="/contact">Contact</Link>
+            <Link to="/admin">Admin Portal</Link>
           </div>
           <div>
             <h4>Legal</h4>

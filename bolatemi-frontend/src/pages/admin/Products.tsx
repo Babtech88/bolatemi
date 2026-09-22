@@ -82,7 +82,7 @@ export default function AdminProducts() {
   const [submitting, setSubmitting] = useState(false);
 
   function load() {
-    api.get<ApiListResponse<Product>>("/products?limit=100").then((res) => setProducts(res.data)).catch(() => {});
+    api.get<ApiListResponse<Product>>("/products/admin/list?limit=100", true).then((res) => setProducts(res.data ?? [])).catch(() => {});
   }
 
   useEffect(() => {
@@ -183,8 +183,12 @@ export default function AdminProducts() {
         </form>
       )}
 
+      <div className="admin-products-note">
+        <span>Inventory</span> — every product is listed here, including items currently hidden from the public shop.
+      </div>
+      <div className="admin-table-wrap">
       <table className="admin-table">
-        <thead><tr><th>Product</th><th>SKU</th><th>Category</th><th>Price</th><th>Stock</th><th></th></tr></thead>
+        <thead><tr><th>Product</th><th>SKU</th><th>Category</th><th>Price</th><th>Stock</th><th>Visibility</th><th></th></tr></thead>
         <tbody>
           {products.map((p) => (
             <tr key={p.id}>
@@ -193,12 +197,14 @@ export default function AdminProducts() {
               <td>{p.category?.name}</td>
               <td className="mono">{p.priceMode === "REQUEST_QUOTE" ? "Request Quote" : formatNaira(p.discountPrice ?? p.price)}</td>
               <td>{p.stockQuantity}</td>
+              <td><span className={`status-pill ${p.isAvailable ? "status-delivered" : "status-cancelled"}`}>{p.isAvailable ? "Visible" : "Hidden"}</span></td>
               <td><button className="cart-remove" onClick={() => remove(p.id)}>Delete</button></td>
             </tr>
           ))}
-          {products.length === 0 && <tr><td colSpan={6}>No products yet.</td></tr>}
+          {products.length === 0 && <tr><td colSpan={7}>No products yet.</td></tr>}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

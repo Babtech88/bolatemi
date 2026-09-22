@@ -7,7 +7,8 @@ import { ApiError } from "../utils/ApiError";
 const SALT_ROUNDS = 12;
 
 export async function login(email: string, password: string) {
-  const admin = await prisma.adminUser.findUnique({ where: { email } });
+  const normalizedEmail = email.trim().replace(/^.*<([^<>]+)>$/, "$1").trim().toLowerCase();
+  const admin = await prisma.adminUser.findUnique({ where: { email: normalizedEmail } });
   if (!admin || !admin.isActive) throw ApiError.unauthorized("Invalid credentials");
 
   const valid = await bcrypt.compare(password, admin.passwordHash);

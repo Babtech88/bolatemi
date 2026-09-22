@@ -31,8 +31,11 @@ export default function AdminLayout() {
       </aside>
       <div className="admin-main">
         <div className="admin-topbar">
-          <span className="mono" style={{ fontSize: 12, color: "var(--ink-soft)" }}>Signed in as {admin.name} ({admin.role})</span>
-          <button className="btn btn-outline-dark btn-sm" onClick={logout}>Log Out</button>
+          <div className="admin-topbar-user">
+            <span className="mono" style={{ fontSize: 12, color: "var(--ink-soft)" }}>Signed in as {admin.name} ({admin.role})</span>
+            <a href="/" className="btn btn-outline-dark btn-sm">View Store</a>
+            <button className="btn btn-outline-dark btn-sm" onClick={logout}>Log Out</button>
+          </div>
         </div>
         <Outlet />
       </div>

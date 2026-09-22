@@ -35,7 +35,8 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   async function login(email: string, password: string) {
-    const res = await api.post<{ success: boolean; data: { admin: AdminUser; token: string } }>("/auth/login", { email, password });
+    const normalizedEmail = email.trim().replace(/^.*<([^<>]+)>$/, "$1").trim().toLowerCase();
+    const res = await api.post<{ success: boolean; data: { admin: AdminUser; token: string } }>("/auth/login", { email: normalizedEmail, password });
     localStorage.setItem("bgs_admin_token", res.data.token);
     setAdmin(res.data.admin);
   }

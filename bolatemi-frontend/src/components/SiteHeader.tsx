@@ -110,9 +110,11 @@ export default function SiteHeader() {
             <NavLink to="/bulk-orders">Bulk Orders</NavLink>
             <NavLink to="/about">About</NavLink>
             <NavLink to="/contact">Contact</NavLink>
+            <NavLink to="/admin">Admin Portal</NavLink>
           </nav>
 
           <div className="nav-actions">
+            <Link to="/admin" className="btn btn-outline-dark btn-sm admin-quick-link">Admin</Link>
             <Link to="/request-a-quote" className="btn btn-outline btn-sm nav-quote-btn">Request Quote</Link>
             <Link to="/cart" className="cart-btn" aria-label="Cart">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -150,6 +152,7 @@ export default function SiteHeader() {
           <NavLink to="/testimonials">Testimonials</NavLink>
           <NavLink to="/faq">FAQ</NavLink>
           <NavLink to="/contact">Contact</NavLink>
+          <NavLink to="/admin">Admin Portal</NavLink>
         </nav>
         <div className="mobile-nav-cats">
           <span className="mobile-nav-cats-label">Categories</span>

@@ -17,7 +17,13 @@ export const app = express();
 // allowed without editing code — a mismatch here is a common cause of
 // "Failed to fetch" in the browser, since a blocked CORS response looks
 // identical to a network failure from fetch()'s perspective.
-const allowedOrigins = env.clientUrl.split(",").map((o) => o.trim());
+const allowedOrigins = Array.from(
+  new Set([
+    ...env.clientUrl.split(",").map((o) => o.trim()).filter(Boolean),
+    "http://localhost:5173",
+    "https://bolatemi-xaaw-chivercel.app",
+  ])
+);
 
 app.use(helmet());
 app.use(
