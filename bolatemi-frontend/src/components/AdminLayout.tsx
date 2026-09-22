@@ -8,6 +8,7 @@ const links = [
   { to: "/admin/quotes", label: "Quotes" },
   { to: "/admin/testimonials", label: "Testimonials" },
   { to: "/admin/messages", label: "Messages" },
+  { to: "/admin/settings", label: "Settings" },
 ];
 
 export default function AdminLayout() {

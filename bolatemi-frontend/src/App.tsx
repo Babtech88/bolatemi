@@ -28,6 +28,7 @@ import AdminOrders from "./pages/admin/Orders";
 import AdminQuotes from "./pages/admin/Quotes";
 import AdminTestimonials from "./pages/admin/Testimonials";
 import AdminMessages from "./pages/admin/Messages";
+import AdminSettings from "./pages/admin/Settings";
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
               <Route path="quotes" element={<AdminQuotes />} />
               <Route path="testimonials" element={<AdminTestimonials />} />
               <Route path="messages" element={<AdminMessages />} />
+              <Route path="settings" element={<AdminSettings />} />
             </Route>
           </Routes>
           </ToastProvider>

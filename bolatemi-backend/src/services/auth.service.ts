@@ -31,6 +31,24 @@ export async function login(email: string, password: string) {
   };
 }
 
+
+export async function changePassword(adminId: string, currentPassword: string, newPassword: string) {
+  const admin = await prisma.adminUser.findUnique({ where: { id: adminId } });
+  if (!admin || !admin.isActive) throw ApiError.unauthorized("Invalid or expired session");
+
+  const valid = await bcrypt.compare(currentPassword, admin.passwordHash);
+  if (!valid) throw ApiError.badRequest("Current password is incorrect");
+
+  const samePassword = await bcrypt.compare(newPassword, admin.passwordHash);
+  if (samePassword) throw ApiError.badRequest("New password must be different from your current password");
+
+  const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
+  await prisma.adminUser.update({
+    where: { id: admin.id },
+    data: { passwordHash },
+  });
+}
+
 // Only ever called from a seed script or by a SUPER_ADMIN creating staff
 // accounts — never exposed as a public signup route.
 export async function createAdmin(input: { name: string; email: string; password: string; role?: "SUPER_ADMIN" | "ADMIN" | "SALES" }) {

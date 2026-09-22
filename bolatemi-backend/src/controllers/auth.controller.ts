@@ -21,6 +21,14 @@ export const logout = asyncHandler(async (_req: Request, res: Response) => {
   res.clearCookie("token").json({ success: true, message: "Logged out" });
 });
 
+
+export const changePassword = asyncHandler(async (req: Request, res: Response) => {
+  const { currentPassword, newPassword } = req.body;
+  await authService.changePassword(req.admin!.id, currentPassword, newPassword);
+
+  res.json({ success: true, message: "Password changed successfully" });
+});
+
 export const me = asyncHandler(async (req: Request, res: Response) => {
   res.json({ success: true, data: req.admin });
 });
