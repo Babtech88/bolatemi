@@ -1,4 +1,6 @@
-import { FormEvent, useState } from "react";
+```tsx
+import { useState } from "react";
+import type { FormEvent } from "react";
 import { api } from "../../lib/api";
 
 export default function AdminSettings() {
@@ -25,6 +27,7 @@ export default function AdminSettings() {
     }
 
     setSaving(true);
+
     try {
       const response = await api.post<{ success: boolean; message: string }>(
         "/auth/change-password",
@@ -37,7 +40,11 @@ export default function AdminSettings() {
       setNewPassword("");
       setConfirmPassword("");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to change password.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to change password.",
+      );
     } finally {
       setSaving(false);
     }
@@ -49,7 +56,9 @@ export default function AdminSettings() {
         <div>
           <span className="eyebrow">ACCOUNT</span>
           <h1>Settings</h1>
-          <p className="admin-products-note">Manage your administrator password securely.</p>
+          <p className="admin-products-note">
+            Manage your administrator password securely.
+          </p>
         </div>
       </div>
 
@@ -84,7 +93,9 @@ export default function AdminSettings() {
                 minLength={8}
                 required
               />
-              <small>Use at least 8 characters. A longer password is recommended.</small>
+              <small>
+                Use at least 8 characters. A longer password is recommended.
+              </small>
             </label>
 
             <label>
@@ -99,10 +110,29 @@ export default function AdminSettings() {
               />
             </label>
 
-            {error && <div className="settings-message settings-message-error" role="alert">{error}</div>}
-            {success && <div className="settings-message settings-message-success" role="status">{success}</div>}
+            {error && (
+              <div
+                className="settings-message settings-message-error"
+                role="alert"
+              >
+                {error}
+              </div>
+            )}
 
-            <button className="btn btn-primary" type="submit" disabled={saving}>
+            {success && (
+              <div
+                className="settings-message settings-message-success"
+                role="status"
+              >
+                {success}
+              </div>
+            )}
+
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={saving}
+            >
               {saving ? "CHANGING PASSWORD…" : "CHANGE PASSWORD"}
             </button>
           </form>
@@ -112,12 +142,20 @@ export default function AdminSettings() {
           <span className="eyebrow">GOOD PRACTICE</span>
           <h2>Keep your account secure</h2>
           <ul>
-            <li>Use a password you do not reuse on other websites.</li>
-            <li>Never share your administrator password with staff or customers.</li>
-            <li>After changing the initial password, do not keep the default password anywhere.</li>
+            <li>
+              Use a password you do not reuse on other websites.
+            </li>
+            <li>
+              Never share your administrator password with staff or customers.
+            </li>
+            <li>
+              After changing the initial password, do not keep the default
+              password anywhere.
+            </li>
           </ul>
         </aside>
       </div>
     </section>
   );
 }
+```
